@@ -1,14 +1,13 @@
 import { deleteTodo } from '../api/todos';
 import { Errors } from './Errors';
 import { Todo } from '../types/Todo';
-import React from 'react';
 import { handleError } from './handleError';
 
 export const deletingTodo = (
   IdsArray: number[],
-  setError: React.Dispatch<React.SetStateAction<Errors>>,
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>,
-) => {
+  setError: (error: Errors) => void,
+  setTodos: (todos: (prevState: Todo[]) => Todo[]) => void,
+): Promise<PromiseSettledResult<void>[]> => {
   return Promise.allSettled(
     IdsArray.map(async id => {
       try {

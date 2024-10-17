@@ -6,8 +6,7 @@ import { Errors } from '../../utils/Errors';
 interface Props {
   todos: Todo[];
   tempTodo: Todo | null;
-  /* eslint-disable-next-line */
-  onDeleteTodo: (id: number[]) => any;
+  onDeleteTodo: (id: number[]) => Promise<PromiseSettledResult<void>[]>;
   onErrorMessageChange: (error: Errors) => void;
 }
 
