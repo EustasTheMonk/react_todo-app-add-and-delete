@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useMemo, useState } from 'react';
 import { UserWarning } from './UserWarning';
-import { getTodos } from './api/todos';
 import { Todo } from './types/Todo';
 import { TodoList } from './components/TodoList/TodoList';
 import { FilterTypes } from './types/FilterTypes';
@@ -13,8 +12,8 @@ import { Errors } from './utils/Errors';
 import { ErrorsField } from './components/ErrorsField/ErrorsField';
 import { Header } from './components/Header/Header';
 import { USER_ID } from './utils/CONSTANTS';
-import { handleError } from './utils/handleError';
 import { deletingTodo } from './utils/deletingTodo';
+import { handleGetTodos } from './utils/handleGetTodos';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -25,11 +24,7 @@ export const App: React.FC = () => {
   const [tempTodo, setTempTodo] = useState<Todo | null>(null);
 
   useEffect(() => {
-    getTodos()
-      .then(setTodos)
-      .catch(() => {
-        handleError(Errors.Loading, setErrorMessage);
-      });
+    handleGetTodos(setTodos, setErrorMessage);
   }, []);
 
   const handleDeleteTodo = (ids: number[]) => {

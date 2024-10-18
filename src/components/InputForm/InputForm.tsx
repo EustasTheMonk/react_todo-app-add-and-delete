@@ -22,10 +22,6 @@ export const InputForm: React.FC<Props> = ({
 }) => {
   const inputField = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
-    inputField.current?.focus();
-  }, [tempTodo, todosLength]);
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const inputValue = inputField?.current?.value.trim();
@@ -53,6 +49,10 @@ export const InputForm: React.FC<Props> = ({
       .catch(() => handleError(Errors.AddTodo, setErrorMessage))
       .finally(() => setTempTodo(null));
   };
+
+  useEffect(() => {
+    inputField.current?.focus();
+  }, [tempTodo, todosLength]);
 
   return (
     <form onSubmit={handleSubmit}>

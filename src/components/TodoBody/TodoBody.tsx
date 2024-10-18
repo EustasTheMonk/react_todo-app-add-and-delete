@@ -12,6 +12,16 @@ interface Props {
 export const TodoBody: React.FC<Props> = ({ todo, onDeleteTodo }) => {
   const [isPending, setIsPending] = useState(false);
 
+  const handleChangeTodo = (
+    callback: (arg: number[]) => Promise<PromiseSettledResult<void>[]>,
+    valueToCall: number[],
+  ) => {
+    setIsPending(true);
+    if (valueToCall) {
+      callback(valueToCall).finally(() => setIsPending(false));
+    }
+  };
+
   return (
     <div data-cy="Todo" className={cn('todo', { completed: todo.completed })}>
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -33,8 +43,7 @@ export const TodoBody: React.FC<Props> = ({ todo, onDeleteTodo }) => {
         className="todo__remove"
         data-cy="TodoDelete"
         onClick={() => {
-          setIsPending(true);
-          onDeleteTodo([todo.id]).finally(() => setIsPending(false));
+          handleChangeTodo(onDeleteTodo, [todo.id]);
         }}
       >
         ×
